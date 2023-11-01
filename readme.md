@@ -150,7 +150,7 @@ Also the code of each function part , like connecting Wifi and connecting MQTT s
 
   my results show like this:
 
-  ![pista](.\img\pista.jpg)
+  ![pista](./img/pista.jpg)
 
 *  Do a quick update / upgrade to make sure all files are upto date and then reboot before moving on to installing the datastore:
 
@@ -164,7 +164,7 @@ Also the code of each function part , like connecting Wifi and connecting MQTT s
 
   
   
-  ![influxdb2](.\img\influxdb2.jpg)
+  ![influxdb2](./img/influxdb2.jpg)
   
   ![telegraf](.\img\telegraf.jpg)
   
