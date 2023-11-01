@@ -57,7 +57,7 @@ In this section, it will briefly show how to build this plant monitor
 
 The sketch below shows the outline design for v2 of the circuit 
 
-![1698801684205](C:\Users\84241\AppData\Roaming\Typora\typora-user-images\1698801684205.png)
+![1698801684205](./img/1698801684205.png)
 
 Here is the finished product
 
