@@ -150,11 +150,7 @@ Also the code of each function part , like connecting Wifi and connecting MQTT s
 
   my results show like this:
 
-  ![influxdb2](.\img\influxdb2.png)
-
-  ![telegraf](.\img\telegraf.png)
-
-  ![infludb](.\img\infludb.png)
+  ![pista](.\img\pista.png)
 
 *  Do a quick update / upgrade to make sure all files are upto date and then reboot before moving on to installing the datastore:
 
@@ -166,7 +162,15 @@ Also the code of each function part , like connecting Wifi and connecting MQTT s
 
 * Follow the [*guidance*](https://workshops.cetools.org/codelabs/CASA0014-2-Plant-Monitor/index.html?index=..%2F..index#11) and install InfluxDB, Telegraf and Grafana, here are some results:
 
-  图片：
+  
+  
+  ![influxdb2](.\img\influxdb2.png)
+  
+  ![telegraf](.\img\telegraf.png)
+  
+  ![infludb](.\img\infludb.png)
+  
+  ![grafana](.\img\grafana.png)
 
 #### 4.1.4 Setup SpringBoot
 
