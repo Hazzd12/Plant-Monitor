@@ -6,7 +6,7 @@ This document documents how to make a plant monitor under the [workshop guidance
 
 ## Catalog
 
-[TOC]
+[future](#future)
 
 ## 1. Physical Equipments
 
@@ -61,13 +61,15 @@ The sketch below shows the outline design for v2 of the circuit
 
 Here is the finished product
 
+图片
+
 *Notice:* Some places need to be soldered
 
 #### 4.1.2 Setup Arduino
 
 You need to create a header file named `secrets.h` to contain your WIFI and MQTT information. The format shows as below:
 
-```
+```C++
 #define SECRET_SSID "xxx"
 #define SECRET_PASS "xxx"
 #define SECRET_MQTTUSER "xxx"
@@ -76,7 +78,7 @@ You need to create a header file named `secrets.h` to contain your WIFI and MQTT
 
 Then, in  `sketch_oct23b.ino`  code, you can reference these keys to connect to WIFI and the MQTT server. Here's an easy example of how to connect to WIFI: 
 
-```
+```c++
 ...
 #include "arduino_secrets.h"
 const char* ssid = SECRET_SSID;
@@ -116,7 +118,7 @@ void startWifi() {//function which is put in the setup() to connect to WIFI
 
  You can see Other code and explanations in the  **`sketch_oct23b.ino`**  where there are detailed annotations, so I won't go into details here.
 
-### 4.1.3 Setup Raspberry Pi
+#### 4.1.3 Setup Raspberry Pi
 
 * First follow the [tutorial](https://www.tomshardware.com/reviews/raspberry-pi-headless-setup-how-to,6028.html) to burn your Raspberry pi SD card.
 
@@ -152,11 +154,93 @@ void startWifi() {//function which is put in the setup() to connect to WIFI
   sudo reboot
   ```
 
-* Then installing InfluxDB, Telegraf and Grafana following the [*guidance*](https://workshops.cetools.org/codelabs/CASA0014-2-Plant-Monitor/index.html?index=..%2F..index#11)
+* Follow the [*guidance*](https://workshops.cetools.org/codelabs/CASA0014-2-Plant-Monitor/index.html?index=..%2F..index#11) and install InfluxDB, Telegraf and Grafana , here are some results:
 
   图片：
 
-### Setup SpringBoot
+#### 4.1.4 Setup SpringBoot
 
-Springboot acts as an MQTT consumer. When springboot server receives message from MQTT server, it will check the data to see if the environment condition of the plant is good enough, and set up a web page to see the maximum and minimum values for three items of data in the last 10 minutes
+Spring Boot acts as an MQTT consumer. When the Spring Boot server receives a message from the MQTT server, it checks the data to determine if the plant's environmental conditions are adequate. It then sets up a web page to display the maximum and minimum values for three data items over the past 10 minutes.  
+
+The file placement and name structure typically refers to Java EE.
+
+* Connect to MQTT Server:
+
+  Use MQTT server to monitor  the data of environment conditions of your plant.
+
+  *  You can use the configured `MqttClient` bean to connect MQTT Server.  
+
+  * dependency:
+
+    ```
+    <dependency>
+    	<groupId>org.springframework.integration</groupId>
+    	<artifactId>spring-integration-mqtt</artifactId>
+    </dependency>
+    ```
+
+  * Then add your own information and try to connect MQT .  You can connect to `MQTTClient` in your Java application by referring [Official document](https://eclipse.dev/paho/files/javadoc/org/eclipse/paho/client/mqttv3/MqttClient.html): 
+
+    ```java
+    public class MQTTService {
+        private static final String brokerUrl = "tcp://your-host:port"; 
+        private static final String clientId = "YourClientId";
+        private static final String topic = "YourTopic"; 
+        public void connectToMQTTServer() {
+            try {
+                ...
+            } catch (Exception e) {
+                e.printStackTrace();
+       }}}
+    ```
+  
+* Send warning email
+
+  Automatically send an email to you to warn you that the environment conditions of your plant are not good:
+  
+  * Logic(pseudo-code):
+  
+    ```pseudocode
+    get data from MQTT server;
+    boolean flag = judge if data can meet the requirements
+    //requirements: 40<humidity<60 15<temperature<24 20<humidity<75
+    if(!flag){
+    	send_email();
+    }
+    ```
+  
+  
+  * You can use the configured `JavaMailSender` bean to send emails in your application. 
+  * dependency:
+  
+  ```
+  <dependency>
+  	<groupId>org.springframework.boot</groupId>
+  	<artifactId>spring-boot-starter-mail</artifactId>
+  </dependency>
+  ```
+  
+  *  You can send emails based on your project's specific email sending requirements by referring [Official document](https://docs.spring.io/spring-framework/reference/integration/email.html)
+  *  <img src=".\img\mail.jpg" alt="mail" style="zoom:20%;" />
+  
+* Check recent maximum and minimum values
+  
+  I create a static html document `test.html` and put it in`/src/main/resources/static` to get the maximum and minimum values of 10 latest humidity, temperature and moisture.
+  
+  * In order to use URL to access `test.html`, you need to complete `WebMvcConfigurer` configuration and ` Cross-Domain ` configuration. The details you can see my `corsConfig` and `WebConfig` files.
+  * 图片
+
+****
+
+## <a href="#future"></a>Future work
+
+1. Direct feedback
+   * add some LEDs to show the situation of plant. When it is good enough, LEDs will not blink while when the situation is worse and worse, the link rate will accelerate.
+   *  prevent led lights from flashing to prevent people from having a good rest in the evening.
+   * add LCD to monitor the HP(health point) of plant. When it is suffering the bad environment situations, the HP will be lower and lower. When the HP comes to a threshold, the buzzer will make sound to notice users to watch out their plants.
+2. Better and More Spring Boot server
+   * give the user interfaces so that they can customize something, such as the warning email, and values they want to see in the html.
+   * add more functions for example, show the data in a diagram, video monitor.
+
+
 
