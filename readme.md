@@ -150,7 +150,7 @@ Also the code of each function part , like connecting Wifi and connecting MQTT s
 
   my results show like this:
 
-  ![pista](.\img\pista.png)
+  ![pista](.\img\pista.jpg)
 
 *  Do a quick update / upgrade to make sure all files are upto date and then reboot before moving on to installing the datastore:
 
@@ -164,13 +164,13 @@ Also the code of each function part , like connecting Wifi and connecting MQTT s
 
   
   
-  ![influxdb2](.\img\influxdb2.png)
+  ![influxdb2](.\img\influxdb2.jpg)
   
-  ![telegraf](.\img\telegraf.png)
+  ![telegraf](.\img\telegraf.jpg)
   
-  ![infludb](.\img\infludb.png)
+  ![infludb](.\img\infludb.jpg)
   
-  ![grafana](.\img\grafana.png)
+  ![grafana](.\img\grafana.jpg)
 
 #### 4.1.4 Setup SpringBoot
 
@@ -229,7 +229,7 @@ The file placement and name structure typically refers to Java EE.
   I create a static html document `test.html` and put it in`/src/main/resources/static` to get the maximum and minimum values of 10 latest humidity, temperature and moisture.
   
   * In order to use URL to access `test.html`, you need to complete `WebMvcConfigurer` configuration and ` Cross-Domain ` configuration. The details you can see my `corsConfig` and `WebConfig` files.
-  * ![1698801684205](.\img\maxmin.png)
+  * ![1698801684205](.\img\maxmin.jpg)
 
 ****
 
