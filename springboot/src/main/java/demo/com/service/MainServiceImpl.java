@@ -73,7 +73,7 @@ public class MainServiceImpl implements MainService {
                 sb.append("<span style=\"color: red;  font-size: 25px;\">"
                         + moisture + "</span><br/>");
                 flag = true;
-            } else if (humidity < 50) {
+            } else if (humidity < 20) {
                 sb.append("the MOISTURE value is too low which is ");
                 sb.append("<span style=\"color: red; font-size: 25px; \">"
                         + moisture + "</span><br/>");
