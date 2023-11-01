@@ -6,9 +6,15 @@ This document documents how to make a plant monitor under the [workshop guidance
 
 ## Catalog
 
-[future](#future)
+1. [Physical Equipment](#PE)
+2. [IDE](#IDE)
+3. [Arduino Library](#AL)
+4. [Process](#Pro)
+5. [future](#future)
 
-## 1. Physical Equipments
+****
+
+## <a name="PE"> </a>1. Physical Equipment
 
 *  ***Feather Huzzah ESP8266 Wifi***  &times; 1
 * ***circuit board***  &times; 1
@@ -25,7 +31,7 @@ This document documents how to make a plant monitor under the [workshop guidance
 
 ****
 
-## 2. IDE
+## <a name="IDE"> </a>2. IDE
 
 * ***Arduino IDE***
 * ***Visual Studio Code***
@@ -34,7 +40,7 @@ This document documents how to make a plant monitor under the [workshop guidance
 
 ****
 
-## 3. Arduino Library
+## <a name="AL"> </a>3. Arduino Library
 
 In this section you can use the library manager of IDE to find them or download it from official.
 
@@ -47,7 +53,7 @@ In this section you can use the library manager of IDE to find them or download 
 
 ****
 
-## 4. Process
+## <a name="Pro"> </a>4. Process
 
 In this section, it will briefly show how to build this plant monitor
 
@@ -221,7 +227,7 @@ The file placement and name structure typically refers to Java EE.
   ```
   
   *  You can send emails based on your project's specific email sending requirements by referring [Official document](https://docs.spring.io/spring-framework/reference/integration/email.html)
-  *  <img src=".\img\mail.jpg" alt="mail" style="zoom:20%;" />
+  *  <img src=".\img\mail.jpg" style="zoom:15%;" />
   
 * Check recent maximum and minimum values
   
@@ -232,7 +238,7 @@ The file placement and name structure typically refers to Java EE.
 
 ****
 
-## <a href="#future"></a>Future work
+## <a name="future"> </a>5. Future work
 
 1. Direct feedback
    * add some LEDs to show the situation of plant. When it is good enough, LEDs will not blink while when the situation is worse and worse, the link rate will accelerate.
