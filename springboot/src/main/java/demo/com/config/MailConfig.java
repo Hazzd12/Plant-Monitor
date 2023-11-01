@@ -10,19 +10,14 @@ import java.util.Properties;
 
 @Configuration
 public class MailConfig {
-
     @Value("${mail.host}")
     String mailHost;
-
     @Value("${mail.username}")
     String username;
-
     @Value("${mail.password}")
     String password;
-
     @Value("${mail.default-encoding}")
     String encoding;
-
     @Value("${mail.port}")
     String port;
     @Bean

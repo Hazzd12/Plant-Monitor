@@ -7,12 +7,9 @@ import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 public class  MqttConsumerCallBack implements MqttCallback{
-
     private  final MainService mainService;
-
     int count = 0;
     float[] par = new float[3];
-
     public MqttConsumerCallBack(MainService mainService) {
         this.mainService = mainService;
     }
@@ -20,19 +17,15 @@ public class  MqttConsumerCallBack implements MqttCallback{
     /**
      *callback when client is disconnected
      */
-
-
     @Override
     public void connectionLost(Throwable throwable) {
         System.out.println("Disconnect");
     }
-
     /**
      * callback when message arrives
      */
     @Override
     public void messageArrived(String topic, MqttMessage message) throws Exception {
-
         System.out.println(topic);
         System.out.println(message);
         System.out.println(count);
@@ -50,12 +43,7 @@ public class  MqttConsumerCallBack implements MqttCallback{
             System.out.println("fail");
             e.printStackTrace();
         }
-
     }
-
-
-
-
     @Override
     public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
     }

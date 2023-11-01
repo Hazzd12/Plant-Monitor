@@ -17,23 +17,16 @@ import java.time.Instant;
 
 @Service
 public class MainServiceImpl implements MainService {
-
     @Autowired
     private GlovalVar glovalVar;
-
     @Value("${mail.username}")
     private String mailUserName;
-
     @Value(("${mail.useremail}"))
     private String consumerEmail;
-
     private Instant previousTime = Instant.now();
-
     private static int cot = 0;
-
     @Autowired
     private JavaMailSender javaMailSender;
-
     boolean flag = false;
 
     @Override
@@ -43,13 +36,11 @@ public class MainServiceImpl implements MainService {
         float temperature = content[0];
         float moisture = content[2];
         StringBuilder sb = new StringBuilder();
-
         GlovalVar.temperatures[cot] = temperature;
         GlovalVar.moistures[cot] = moisture;
         GlovalVar.humiditys[cot] = humidity;
         cot++;
         cot %=10;
-
         if(flag){
             long timeDifference = calculateTimeDifferenceInSeconds();
             if(timeDifference >= 3 * 60 * 60) {
@@ -68,7 +59,6 @@ public class MainServiceImpl implements MainService {
                         + humidity + "</span><br/>");
                 flag = true;
             }
-
             if (temperature > 24) {
                 sb.append("the TEMPERATURE value is too high which is ");
                 sb.append("<span style=\"color: red;  font-size: 25px; \">"
@@ -95,9 +85,7 @@ public class MainServiceImpl implements MainService {
             previousTime = Instant.now();
             SendProblemEmail(consumerEmail, sb.toString());
         }
-
     }
-
     @Override
     public float[] getRecentMaxAndMinVue() {
         float[] result =  new float[6];
@@ -113,7 +101,6 @@ public class MainServiceImpl implements MainService {
         result[5] = temp[1];
         return result;
     }
-
     public float[] getMaxValue(float[] arr){
         float[] val = new float[2];
         val[0] = arr[0];//min value
@@ -129,33 +116,23 @@ public class MainServiceImpl implements MainService {
         return val;
     }
     public void SendProblemEmail(String emailAddr, String problem) {
-
-
         String text = MailContent.mailContent(problem);
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-
-        // configure and send mail
         try {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
             mimeMessageHelper.setFrom(mailUserName);
-            // receiver email address
             mimeMessageHelper.setTo(emailAddr);
-            // email title
             mimeMessage.setSubject("Plant Monitor");
-            // email content
             mimeMessageHelper.setText(text, true);
             javaMailSender.send(mimeMessage);
         } catch (MessagingException e) {
             e.printStackTrace();
         }
     }
-
     public long calculateTimeDifferenceInSeconds() {
         Instant currentTime = Instant.now();
         Duration duration = Duration.between(previousTime, currentTime);
         long seconds = duration.getSeconds();
         return seconds;
     }
-
-
 }
