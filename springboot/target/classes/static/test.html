@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Array Visualization</title>
+    <!-- Include Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Plant Monitor</h1>
+
+    <table>
+        <tr>
+            <th> </th>
+            <th> </th>
+            <th>Max Value</th>
+            <th> </th>
+            <th>Min Value</th>
+        </tr>
+        <tr>
+            <td>Humidity</td>
+            <th> </th>
+            <td id="maxValue1"></td>
+            <th></th>
+            <td id="minValue1"></td>
+        </tr>
+        <tr>
+            <td>Temperature</td>
+            <th> </th>
+            <td id="maxValue2"></td>
+            <th></th>
+            <td id="minValue2"></td>
+        </tr>
+        <tr>
+            <td>Moisture</td>
+            <th> </th>
+            <td id="maxValue3"></td>
+            <th> </th>
+            <td id="minValue3"></td>
+        </tr>
+    </table>
+    
+    <script>
+
+            fetch("http://127.0.0.1:8081/test4")  // 请替换为你的Spring Boot Controller的API端点
+            .then(response => response.json())
+            .then(data => {
+                // 显示返回的数据
+                document.getElementById("minValue1").textContent =`${data[0]}`;
+                document.getElementById("maxValue1").textContent =`${data[1]}`;
+                document.getElementById("minValue2").textContent =`${data[2]}`;
+                document.getElementById("maxValue2").textContent =`${data[3]}`;
+                document.getElementById("minValue3").textContent =`${data[4]}`;
+                document.getElementById("maxValue3").textContent =`${data[5]}`;
+            })
+            .catch(error => console.error("Error:", error));
+    </script>
+
+
+</body>
+</html>
