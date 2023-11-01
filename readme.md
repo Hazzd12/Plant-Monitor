@@ -1,3 +1,5 @@
+
+
 # Plant Monitor
 
 ## Overview
@@ -65,9 +67,9 @@ The sketch below shows the outline design for v2 of the circuit
 
 ![1698801684205](./img/1698801684205.png)
 
-Here is the finished product
+Here is the finished product:
 
-图片
+<img src=".\img\circuit board.jpg"   width="400" height="450" />
 
 *Notice:* Some places need to be soldered
 
@@ -120,6 +122,8 @@ void startWifi() {//function which is put in the setup() to connect to WIFI
 
  You can see Other code and explanations in the  **`sketch_oct23b.ino`**  where there are detailed annotations, so I won't go into details here.
 
+Also the code of each function part , like connecting Wifi and connecting MQTT server, you can see examples in `example` folder.
+
 #### 4.1.3 Setup Raspberry Pi
 
 * First follow the [tutorial](https://www.tomshardware.com/reviews/raspberry-pi-headless-setup-how-to,6028.html) to burn your Raspberry pi SD card.
@@ -130,13 +134,13 @@ void startWifi() {//function which is put in the setup() to connect to WIFI
 	ssh pi@stud-pi-ucfnuax.local
 	```
 
-	*Notice:* the terminal will report:
+	*Notice:* if the terminal reports:
 
 	```
 	ssh: Could not resolve hostname .....
 	```
 	
-	Maybe deleting the `.local` will help you.
+	​	Maybe deleting the `.local` will help you.
 	
 * Check the OS your device by using:
 
@@ -146,7 +150,11 @@ void startWifi() {//function which is put in the setup() to connect to WIFI
 
   my results show like this:
 
-  图片
+  ![influxdb2](.\img\influxdb2.png)
+
+  ![telegraf](.\img\telegraf.png)
+
+  ![infludb](.\img\infludb.png)
 
 *  Do a quick update / upgrade to make sure all files are upto date and then reboot before moving on to installing the datastore:
 
@@ -156,7 +164,7 @@ void startWifi() {//function which is put in the setup() to connect to WIFI
   sudo reboot
   ```
 
-* Follow the [*guidance*](https://workshops.cetools.org/codelabs/CASA0014-2-Plant-Monitor/index.html?index=..%2F..index#11) and install InfluxDB, Telegraf and Grafana , here are some results:
+* Follow the [*guidance*](https://workshops.cetools.org/codelabs/CASA0014-2-Plant-Monitor/index.html?index=..%2F..index#11) and install InfluxDB, Telegraf and Grafana, here are some results:
 
   图片：
 

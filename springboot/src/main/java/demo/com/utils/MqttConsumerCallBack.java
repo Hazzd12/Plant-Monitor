@@ -22,13 +22,11 @@ public class  MqttConsumerCallBack implements MqttCallback{
     public void messageArrived(String topic, MqttMessage message) throws Exception {
         System.out.println(topic);
         System.out.println(message);
-        System.out.println(count);
         try {
             par[count] = Float.valueOf(String.valueOf(message));
             count++;
             if(count==3){
                 count=0;
-                //check if it is necessary to send email
                 mainService.MailSender(par);
             }
         }

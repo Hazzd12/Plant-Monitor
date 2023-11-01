@@ -29,8 +29,8 @@ public class MainServiceImpl implements MainService {
 
     @Override
     public void MailSender(float[] content) {
-        float humidity = content[1];
         float temperature = content[0];
+        float humidity = content[1];
         float moisture = content[2];
         StringBuilder sb = new StringBuilder();
         GlovalVar.temperatures[cot] = temperature;
@@ -73,14 +73,16 @@ public class MainServiceImpl implements MainService {
                 sb.append("<span style=\"color: red;  font-size: 25px;\">"
                         + moisture + "</span><br/>");
                 flag = true;
-            } else if (humidity < 20) {
+            } else if (moisture < 20) {
                 sb.append("the MOISTURE value is too low which is ");
                 sb.append("<span style=\"color: red; font-size: 25px; \">"
                         + moisture + "</span><br/>");
                 flag = true;
             }
-            previousTime = Instant.now();
-            SendProblemEmail(consumerEmail, sb.toString());
+            if(flag) {
+                previousTime = Instant.now();
+                SendProblemEmail(consumerEmail, sb.toString());
+            }
         }
     }
     @Override

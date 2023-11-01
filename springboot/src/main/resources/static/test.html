@@ -41,10 +41,9 @@
     
     <script>
 
-            fetch("http://127.0.0.1:8081/test4")  // 请替换为你的Spring Boot Controller的API端点
-            .then(response => response.json())
+            fetch("http://10.129.118.189:8081/test4")
+                .then(response =>response.json())
             .then(data => {
-                // 显示返回的数据
                 document.getElementById("minValue1").textContent =`${data[0]}`;
                 document.getElementById("maxValue1").textContent =`${data[1]}`;
                 document.getElementById("minValue2").textContent =`${data[2]}`;
