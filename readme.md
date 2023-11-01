@@ -118,7 +118,45 @@ void startWifi() {//function which is put in the setup() to connect to WIFI
 
 ### 4.1.3 Setup Raspberry Pi
 
-* F
+* First follow the [tutorial](https://www.tomshardware.com/reviews/raspberry-pi-headless-setup-how-to,6028.html) to burn your Raspberry pi SD card.
 
+*  Once the card is flashed, insert it into the RPi and power it up and log into the device using SSH. In my case I used: 
 
+	```
+	ssh pi@stud-pi-ucfnuax.local
+	```
+
+	*Notice:* the terminal will report:
+
+	```
+	ssh: Could not resolve hostname .....
+	```
+	
+	Maybe deleting the `.local` will help you.
+	
+* Check the OS your device by using:
+
+  ```
+  cat /etc/os-release
+  ```
+
+  my results show like this:
+
+  图片
+
+*  Do a quick update / upgrade to make sure all files are upto date and then reboot before moving on to installing the datastore:
+
+  ```
+  sudo apt update
+  sudo apt upgrade -y
+  sudo reboot
+  ```
+
+* Then installing InfluxDB, Telegraf and Grafana following the [*guidance*](https://workshops.cetools.org/codelabs/CASA0014-2-Plant-Monitor/index.html?index=..%2F..index#11)
+
+  图片：
+
+### Setup SpringBoot
+
+Springboot acts as an MQTT consumer. When springboot server receives message from MQTT server, it will check the data to see if the environment condition of the plant is good enough, and set up a web page to see the maximum and minimum values for three items of data in the last 10 minutes
 
