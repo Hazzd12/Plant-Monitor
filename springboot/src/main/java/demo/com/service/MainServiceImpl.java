@@ -17,8 +17,6 @@ import java.time.Instant;
 
 @Service
 public class MainServiceImpl implements MainService {
-    @Autowired
-    private GlovalVar glovalVar;
     @Value("${mail.username}")
     private String mailUserName;
     @Value(("${mail.useremail}"))
@@ -31,7 +29,6 @@ public class MainServiceImpl implements MainService {
 
     @Override
     public void MailSender(float[] content) {
-        System.out.println(content);
         float humidity = content[1];
         float temperature = content[0];
         float moisture = content[2];

@@ -28,7 +28,6 @@ public class MailConfig {
         javaMailSender.setPassword(password);
         javaMailSender.setDefaultEncoding(encoding);
         javaMailSender.setJavaMailProperties(getMailProperties());
-
         return javaMailSender;
     }
 

@@ -14,16 +14,10 @@ public class  MqttConsumerCallBack implements MqttCallback{
         this.mainService = mainService;
     }
 
-    /**
-     *callback when client is disconnected
-     */
     @Override
     public void connectionLost(Throwable throwable) {
         System.out.println("Disconnect");
     }
-    /**
-     * callback when message arrives
-     */
     @Override
     public void messageArrived(String topic, MqttMessage message) throws Exception {
         System.out.println(topic);
