@@ -229,7 +229,7 @@ The file placement and name structure typically refers to Java EE.
   I create a static html document `test.html` and put it in`/src/main/resources/static` to get the maximum and minimum values of 10 latest humidity, temperature and moisture.
   
   * In order to use URL to access `test.html`, you need to complete `WebMvcConfigurer` configuration and ` Cross-Domain ` configuration. The details you can see my `corsConfig` and `WebConfig` files.
-  * 图片
+  * ![1698801684205](.\img\maxmin.png)
 
 ****
 
