@@ -1,11 +1,10 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WebServer.h>
-// #include <ESP8266HTTPClient.h>
 #include <ezTime.h>
 #include <PubSubClient.h>
 #include <DHT.h>
 #include <DHT_U.h>
-// #include <ArduinoJson.h>
+
 
 #define DHTTYPE DHT22
 
@@ -34,16 +33,16 @@ ESP8266WebServer server(80);                   // set 80 as ESP8266server port n
 const char* mqtt_server = "mqtt.cetools.org";  // mqtt server ip
 
 WiFiClient espClient;            // Use WiFiClient Object to create TCP connections
-PubSubClient client(espClient);  //Use PubSubClient  to handle MQTT message
+PubSubClient client(espClient);  //Use PubSubClient to handle MQTT communication
 long lastMsg = 0;
-char msg[50];                    //used to contain humidity, temperature or moisture value
+char msg[50];                    //Used to contain humidity, temperature or moisture message
 int value = 0;
 
-Timezone GB;
+Timezone GB;//Initializes a time zone object GB
 void setup() {
   // Initialize the BUILTIN_LED pin as an output
-  pinMode(BUILTIN_LED, OUTPUT);
-  digitalWrite(BUILTIN_LED, HIGH);
+  pinMode(BUILTIN_LED, OUTPUT);// Set the built-in LED to output mode
+  digitalWrite(BUILTIN_LED, HIGH);// Set the built-in LED to high (usually indicates LED off)
 
   // Set up the outputs to control the soil sensor
   // switch and the blue LED for status indicator
@@ -64,7 +63,7 @@ void setup() {
   startWifi();       //Wifi connection function
   startWebserver();  //Start web server function
   syncDate();        //time synchronization and printing
-  // start MQTT server
+ // Once connected to wifi try to connect MQTT server
   client.setServer(mqtt_server, 1884);  //set mqtt.cetools.org:1884 as the MQTT server ip
   client.setCallback(callback);         //set  callback function
 }
@@ -109,13 +108,13 @@ void readMoisture() {
 }
 
 void startWifi() {
-  //print connection information
+  //print trying to connect information
   Serial.println("");
   Serial.print("Connecting to ");
   Serial.println(WIFIssid);
 
 
-  WiFi.begin(WIFIssid, WIFIpassword);  //insert wifi WIFIssid and password to start to connect to
+  WiFi.begin(WIFIssid, WIFIpassword);  //add wifi WIFIssid and password to try to connect WIFI
 
   while (WiFi.status() != WL_CONNECTED) {//when Wifi has not yet been connected
     delay(500);
@@ -124,7 +123,7 @@ void startWifi() {
   Serial.println("");
 
 
-  //print successfully connecting WIFI message
+  //print successfully connection message
   Serial.println("WiFi connected");
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
@@ -137,9 +136,9 @@ void syncDate() {
   //before your code continues to execute
   waitForSync();
 
-  // print real Time
+  // print London current time
   Serial.println("UTC: " + UTC.dateTime());
-  GB.setLocation("Europe/London");
+  GB.setLocation("Europe/London");//Set the time zone of the GB object to the time zone of London
   Serial.println("London time: " + GB.dateTime());
 }
 
@@ -155,11 +154,14 @@ void startWebserver() {
   Serial.println("HTTP server started");
 }
 
+// Publishes formatted messages to the specified MQTT topic
 void sendMQTT() {
 
   if (!client.connected()) {//check if the client is connected
-    reconnect();  //function used to reconnect MQTT serverthe specified until it is connected
+    reconnect();  //try to reconnect MQTT serverthe specified until it is connected
   }
+
+  // Execute the loop() function on the MQTT client to process messages from the MQTT server
   client.loop();
 
   TemperatureC = dht.readTemperature();  // Gets the values of the temperature from DHT directly
@@ -167,13 +169,16 @@ void sendMQTT() {
   snprintf(msg, 50, "%.1f", TemperatureC);
   Serial.print("Publish message for Celsius temperature: ");
   Serial.println(msg);
-  client.publish("student/CASA0014/plant/ucfnuax/temperature", msg);  // publish the temperature message to the topic
+  // publish the temperature message to to the topic "student/CASA0014/plant/ucfnuax/temperature"
+  client.publish("student/CASA0014/plant/ucfnuax/temperature", msg);  
+
 
   float TemperatureF;
-  TemperatureF = celsiusToFahrenheit(TemperatureC);
+  TemperatureF = celsiusToFahrenheit(TemperatureC);//convert Celsius degree to Fahrenheit degrees
   snprintf(msg, 50, "%.1f", TemperatureF);
   Serial.print("Publish message for Fahrenheit temperature: ");
   Serial.println(msg);
+  // publish the temperature message to to the topic "student/CASA0014/plant/ucfnuax/temperatureF"
   client.publish("student/CASA0014/plant/ucfnuax/temperatureF", msg);
 
   Humidity = dht.readHumidity();  // Gets the values of the humidity from DHT directly
@@ -181,15 +186,16 @@ void sendMQTT() {
   snprintf(msg, 50, "%.0f", Humidity);
   Serial.print("Publish message for humidity: ");
   Serial.println(msg);
-  client.publish("student/CASA0014/plant/ucfnuax/humidity", msg);  // publish the humudity message to the topic
+  // publish the humudity message to the topic"student/CASA0014/plant/ucfnuax/humidity"
+  client.publish("student/CASA0014/plant/ucfnuax/humidity", msg);  
 
   Moisture = analogRead(soilPin);  // moisture read by readMoisture function
   //Format moisture value as a floating point number with one decimal place.
   snprintf(msg, 50, "%.0i", Moisture);
   Serial.print("Publish message for moisture: ");
   Serial.println(msg);
-  client.publish("student/CASA0014/plant/ucfnuax/moisture", msg);  // publish the moisture message to the topic
-
+   // publish the moisture message to the topic"student/CASA0014/plant/ucfnuax/moisture"
+  client.publish("student/CASA0014/plant/ucfnuax/moisture", msg); 
   
 }
 float celsiusToFahrenheit(float celsius) {
@@ -198,6 +204,7 @@ float celsiusToFahrenheit(float celsius) {
     return fahrenheit;
 }
 void callback(char* topic, byte* payload, unsigned int length) {
+  //when the messages of subscribed topics arrive, print the relative information
   Serial.print("Message arrived [");
   Serial.print(topic);
   Serial.print("] ");
@@ -218,7 +225,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
 void reconnect() {
   // Loop until we're reconnected
-  while (!client.connected()) {
+  while (!client.connected()) {// when MQTT server is not connected
     Serial.print("Attempting MQTT connection...");
     // Create a random client ID
     String clientId = "ESP8266Client-";
