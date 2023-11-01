@@ -85,20 +85,18 @@ You need to create a header file named `secrets.h` to contain your WIFI and MQTT
 Then, in  `sketch_oct23b.ino`  code, you can reference these keys to connect to WIFI and the MQTT server. Here's an easy example of how to connect to WIFI: 
 
 ```c++
-...
 #include "arduino_secrets.h"
 const char* ssid = SECRET_SSID;
 const char* password = SECRET_PASS;
-...
-
+```
+```c++
 void setup(){
 ...
 startWifi();
 ...
 }
-
-...
-
+```
+```c++
 void startWifi() {//function which is put in the setup() to connect to WIFI
   //print connection information
   Serial.println();
@@ -118,8 +116,6 @@ void startWifi() {//function which is put in the setup() to connect to WIFI
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
 }
-
-...
 ```
 
  You can see Other code and explanations in the  **`sketch_oct23b.ino`**  where there are detailed annotations, so I won't go into details here.
@@ -187,19 +183,6 @@ The file placement and name structure typically refers to Java EE.
 
   * Then add your own information and try to connect MQT .  You can connect to `MQTTClient` in your Java application by referring [Official document](https://eclipse.dev/paho/files/javadoc/org/eclipse/paho/client/mqttv3/MqttClient.html): 
 
-    ```java
-    public class MQTTService {
-        private static final String brokerUrl = "tcp://your-host:port"; 
-        private static final String clientId = "YourClientId";
-        private static final String topic = "YourTopic"; 
-        public void connectToMQTTServer() {
-            try {
-                ...
-            } catch (Exception e) {
-                e.printStackTrace();
-       }}}
-    ```
-  
 * Send warning email
 
   Automatically send an email to you to warn you that the environment conditions of your plant are not good:
