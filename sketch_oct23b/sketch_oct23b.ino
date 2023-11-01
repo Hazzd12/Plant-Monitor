@@ -12,7 +12,7 @@
 #include "arduino_secrets.h"
 uint8_t DHTPin = 12;  // set 12 as DHT pin number
 uint8_t soilPin = 0;  // set 0 as soil sensor pin number
-float Temperature;    // declare Temperature
+float TemperatureC;    // declare Celsius Temperature 
 float Humidity;       // declare Humidity
 
 
@@ -25,16 +25,17 @@ DHT dht(DHTPin, DHTTYPE);  // Initialize DHT sensor.
 
 
 //read WIFI and MQTT name and password from head documents arudino_secrets.h
-const char* ssid = SECRET_SSID;
-const char* password = SECRET_PASS;
+const char* WIFIssid = SECRET_SSID;
+const char* WIFIpassword = SECRET_PASS;
 const char* mqttuser = SECRET_MQTTUSER;
 const char* mqttpass = SECRET_MQTTPASS;
 
 ESP8266WebServer server(80);                   // set 80 as ESP8266server port number
-const char* mqtt_server = "mqtt.cetools.org";  // mqtt_server ip
+const char* mqtt_server = "mqtt.cetools.org";  // mqtt server ip
 
 WiFiClient espClient;            // Use WiFiClient Object to create TCP connections
 PubSubClient client(espClient);  //Use PubSubClient  to handle MQTT message
+long lastMsg = 0;
 char msg[50];                    //used to contain humidity, temperature or moisture value
 int value = 0;
 
@@ -63,7 +64,6 @@ void setup() {
   startWifi();       //Wifi connection function
   startWebserver();  //Start web server function
   syncDate();        //time synchronization and printing
-
   // start MQTT server
   client.setServer(mqtt_server, 1884);  //set mqtt.cetools.org:1884 as the MQTT server ip
   client.setCallback(callback);         //set  callback function
@@ -110,14 +110,14 @@ void readMoisture() {
 
 void startWifi() {
   //print connection information
-  Serial.println();
+  Serial.println("");
   Serial.print("Connecting to ");
-  Serial.println(ssid);
+  Serial.println(WIFIssid);
 
 
-  WiFi.begin(ssid, password);  //insert wifi ssid and password to start to connect to
+  WiFi.begin(WIFIssid, WIFIpassword);  //insert wifi WIFIssid and password to start to connect to
 
-  while (WiFi.status() != WL_CONNECTED) {
+  while (WiFi.status() != WL_CONNECTED) {//when Wifi has not yet been connected
     delay(500);
     Serial.print(".");  //show connecting message
   }
@@ -157,17 +157,24 @@ void startWebserver() {
 
 void sendMQTT() {
 
-  if (!client.connected()) {
-    reconnect();  //function used to connect MQTT serverthe specified
+  if (!client.connected()) {//check if the client is connected
+    reconnect();  //function used to reconnect MQTT serverthe specified until it is connected
   }
   client.loop();
 
-  Temperature = dht.readTemperature();  // Gets the values of the temperature from DHT directly
+  TemperatureC = dht.readTemperature();  // Gets the values of the temperature from DHT directly
   //Format temperature value as a floating point number with one decimal place.
-  snprintf(msg, 50, "%.1f", Temperature);
-  Serial.print("Publish message for temperature: ");
+  snprintf(msg, 50, "%.1f", TemperatureC);
+  Serial.print("Publish message for Celsius temperature: ");
   Serial.println(msg);
   client.publish("student/CASA0014/plant/ucfnuax/temperature", msg);  // publish the temperature message to the topic
+
+  float TemperatureF;
+  TemperatureF = celsiusToFahrenheit(TemperatureC);
+  snprintf(msg, 50, "%.1f", TemperatureF);
+  Serial.print("Publish message for Fahrenheit temperature: ");
+  Serial.println(msg);
+  client.publish("student/CASA0014/plant/ucfnuax/temperatureF", msg);
 
   Humidity = dht.readHumidity();  // Gets the values of the humidity from DHT directly
   //Format humudity value as a floating point number with one decimal place.
@@ -182,8 +189,14 @@ void sendMQTT() {
   Serial.print("Publish message for moisture: ");
   Serial.println(msg);
   client.publish("student/CASA0014/plant/ucfnuax/moisture", msg);  // publish the moisture message to the topic
-}
 
+  
+}
+float celsiusToFahrenheit(float celsius) {
+    // Convert degrees Celsius to degrees Fahrenheit using the conversion formula
+    float fahrenheit = (celsius * 9 / 5) + 32;
+    return fahrenheit;
+}
 void callback(char* topic, byte* payload, unsigned int length) {
   Serial.print("Message arrived [");
   Serial.print(topic);
@@ -226,15 +239,17 @@ void reconnect() {
   }
 }
 void handle_OnConnect() {
-  Temperature = dht.readTemperature();                                       // Gets the values of the temperature
+  TemperatureC = dht.readTemperature();                                       // Gets the values of the temperature
   Humidity = dht.readHumidity();                                             // Gets the values of the humidity
-  server.send(200, "text/html", SendHTML(Temperature, Humidity, Moisture));  //
+  //designed to serve a simple web page that displays sensor data from the DHT22 sensor.
+  server.send(200, "text/html", SendHTML(TemperatureC, Humidity, Moisture));
 }
 
 void handle_NotFound() {
   server.send(404, "text/plain", "Not found");
 }
 
+//generates an HTML page with the sensor data and returns it as a string.
 String SendHTML(float Temperaturestat, float Humiditystat, int Moisturestat) {
   String ptr = "<!DOCTYPE html> <html>\n";
   ptr += "<head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\">\n";
