@@ -227,7 +227,7 @@ The file placement and name structure typically refers to Java EE.
   ```
   
   *  You can send emails based on your project's specific email sending requirements by referring [Official document](https://docs.spring.io/spring-framework/reference/integration/email.html)
-  *  <img src=".\img\mail.jpg" style="zoom:15%;" />
+  *  <img src=".\img\mail.jpg"   width="200" height="450"  />
   
 * Check recent maximum and minimum values
   
