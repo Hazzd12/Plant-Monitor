@@ -162,8 +162,6 @@ Also the code of each function part , like connecting Wifi and connecting MQTT s
 
 * Follow the [*guidance*](https://workshops.cetools.org/codelabs/CASA0014-2-Plant-Monitor/index.html?index=..%2F..index#11) and install InfluxDB, Telegraf and Grafana, here are some results:
 
-  
-  
   ![influxdb2](./img/influxdb2.jpg)
   
   ![telegraf](.\img\telegraf.jpg)
@@ -229,7 +227,7 @@ The file placement and name structure typically refers to Java EE.
   I create a static html document `test.html` and put it in`/src/main/resources/static` to get the maximum and minimum values of 10 latest humidity, temperature and moisture.
   
   * In order to use URL to access `test.html`, you need to complete `WebMvcConfigurer` configuration and ` Cross-Domain ` configuration. The details you can see my `corsConfig` and `WebConfig` files.
-  * ![1698801684205](.\img\maxmin.jpg)
+  * ![1698801684205](./img/maxmin.jpg)
 
 ****
 
