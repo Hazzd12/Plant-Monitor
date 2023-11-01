@@ -189,9 +189,9 @@ void sendMQTT() {
   // publish the humudity message to the topic"student/CASA0014/plant/ucfnuax/humidity"
   client.publish("student/CASA0014/plant/ucfnuax/humidity", msg);  
 
-  Moisture = analogRead(soilPin);  // moisture read by readMoisture function
+  //Moisture = analogRead(soilPin);  // moisture read by readMoisture function
   //Format moisture value as a floating point number with one decimal place.
-  snprintf(msg, 50, "%.0i", Moisture);
+  snprintf(msg, 50, "%.1i", Moisture);
   Serial.print("Publish message for moisture: ");
   Serial.println(msg);
    // publish the moisture message to the topic"student/CASA0014/plant/ucfnuax/moisture"
