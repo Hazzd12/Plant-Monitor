@@ -100,23 +100,13 @@ startWifi();
 ```
 ```c++
 void startWifi() {//function which is put in the setup() to connect to WIFI
-  //print connection information
-  Serial.println();
-  Serial.print("Connecting to ");
-  Serial.println(ssid);
-
+ ...//print information
   WiFi.begin(ssid, password);  //insert wifi ssid and password to start to connect to
 
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
-    Serial.print(".");  //show connecting message
   }
-  Serial.println("");
-
-  //print successfully connecting WIFI message
-  Serial.println("WiFi connected");
-  Serial.print("IP address: ");
-  Serial.println(WiFi.localIP());
+....//print information
 }
 ```
 
@@ -164,11 +154,11 @@ Also the code of each function part , like connecting Wifi and connecting MQTT s
 
   ![influxdb2](./img/influxdb2.jpg)
   
-  ![telegraf](.\img\telegraf.jpg)
+  ![telegraf](./img/telegraf.jpg)
   
-  ![infludb](.\img\infludb.jpg)
+  ![infludb](./img/infludb.jpg)
   
-  ![grafana](.\img\grafana.jpg)
+  ![grafana](./img/grafana.jpg)
 
 #### 4.1.4 Setup SpringBoot
 
@@ -203,9 +193,7 @@ The file placement and name structure typically refers to Java EE.
     get data from MQTT server;
     boolean flag = judge if data can meet the requirements
     //requirements: 40<humidity<60 15<temperature<24 20<humidity<75
-    if(!flag){
-    	send_email();
-    }
+    if(!flag){send_email();}
     ```
   
   
@@ -220,7 +208,7 @@ The file placement and name structure typically refers to Java EE.
   ```
   
   *  You can send emails based on your project's specific email sending requirements by referring [Official document](https://docs.spring.io/spring-framework/reference/integration/email.html)
-  *  <img src=".\img\mail.jpg"   width="200" height="450"  />
+  *  <img src=".\img\mail.jpg"   width="200" height="250"  />
   
 * Check recent maximum and minimum values
   
