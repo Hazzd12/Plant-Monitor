@@ -99,14 +99,13 @@ startWifi();
 }
 ```
 ```c++
-void startWifi() {//function which is put in the setup() to connect to WIFI
- ...//print information
-  WiFi.begin(ssid, password);  //insert wifi ssid and password to start to connect to
-
+void startWifi() {
+ ...
+  WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
   }
-....//print information
+....
 }
 ```
 
@@ -142,13 +141,7 @@ Also the code of each function part , like connecting Wifi and connecting MQTT s
 
   ![pista](./img/pista.jpg)
 
-*  Do a quick update / upgrade to make sure all files are upto date and then reboot before moving on to installing the datastore:
-
-  ```
-  sudo apt update
-  sudo apt upgrade -y
-  sudo reboot
-  ```
+*  Do a quick update / upgrade to make sure all files are up to date and then reboot before moving on to installing the datastore:
 
 * Follow the [*guidance*](https://workshops.cetools.org/codelabs/CASA0014-2-Plant-Monitor/index.html?index=..%2F..index#11) and install InfluxDB, Telegraf and Grafana, here are some results:
 
@@ -192,7 +185,6 @@ The file placement and name structure typically refers to Java EE.
     ```pseudocode
     get data from MQTT server;
     boolean flag = judge if data can meet the requirements
-    //requirements: 40<humidity<60 15<temperature<24 20<humidity<75
     if(!flag){send_email();}
     ```
   
