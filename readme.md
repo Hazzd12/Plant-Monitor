@@ -77,12 +77,6 @@ Here is the finished product:
 
 You need to create a header file named `secrets.h` to contain your WIFI and MQTT information. The format shows as below:
 
-```C++
-#define SECRET_SSID "xxx"
-#define SECRET_PASS "xxx"
-#define SECRET_MQTTUSER "xxx"
-#define SECRET_MQTTPASS "xxx"
-```
 
 Then, in  `sketch_oct23b.ino`  code, you can reference these keys to connect to WIFI and the MQTT server. Here's an easy example of how to connect to WIFI: 
 
@@ -117,13 +111,9 @@ Also the code of each function part , like connecting Wifi and connecting MQTT s
 
 * First follow the [tutorial](https://www.tomshardware.com/reviews/raspberry-pi-headless-setup-how-to,6028.html) to burn your Raspberry pi SD card.
 
-*  Once the card is flashed, insert it into the RPi and power it up and log into the device using SSH. In my case I used: 
+*  Once the card is flashed, insert it into the RPi and power it up and log into the device using SSH. 
 
-	```
-	ssh pi@stud-pi-ucfnuax.local
-	```
-
-	*Notice:* if the terminal reports:
+	*Notice:* if the terminal reports when you are trying to connect:
 
 	```
 	ssh: Could not resolve hostname .....
